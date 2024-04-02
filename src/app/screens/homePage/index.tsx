@@ -1,10 +1,11 @@
 import React from "react";
+import Statistics from "./Statistics";
 import PopularDishes from "./PopularDishes";
 import NewDishes from "./NewDishes";
 import ActiveUsers from "./ActiveUsers";
 import Advertisement from "./Advertisement";
 import Events from "./Events";
-import Statistics from "./Statistics";
+import "../../../css/home.css";
 
 
 
