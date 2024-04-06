@@ -29,7 +29,7 @@ function App() {
         <Route path="/orders">
           <OrdersPage />
         </Route>
-        <Route path="/member-user">
+        <Route path="/member-page">
           <UserPage />
         </Route>
         <Route path="/help">
