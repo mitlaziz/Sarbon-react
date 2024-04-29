@@ -12,9 +12,9 @@ import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Dispatch} from "@reduxjs/toolkit";
+import { Dispatch } from "@reduxjs/toolkit";
 import { setRestaurant, setChosenProduct } from "./slice";
-import {createSelector} from "reselect";
+import { createSelector } from "reselect";
 import { retrieveChosenProduct, retrieveRestaurant } from "./selector";
 import { Product } from "../../../lib/types/product";
 import { useParams } from "react-router-dom";
@@ -44,25 +44,25 @@ interface ChosenProductProps {
 
 export default function ChosenProduct(props: ChosenProductProps) {
   const { onAdd } = props;
-  const {productId} = useParams<{productId: string}>();
-  const {setRestaurant, setChosenProduct } = actionDispatch(useDispatch());
-  const {chosenProduct} = useSelector(chosenProductRetriever);
-  const {restaurant} = useSelector(restaurantRetriever);
+  const { productId } = useParams<{ productId: string }>();
+  const { setRestaurant, setChosenProduct } = actionDispatch(useDispatch());
+  const { chosenProduct } = useSelector(chosenProductRetriever);
+  const { restaurant } = useSelector(restaurantRetriever);
 
-useEffect(() => {
-  const product = new ProductService();
-  product
-    .getProduct(productId)
-    .then((data) => setChosenProduct(data))
-    .catch((err) => console.log(err));
+  useEffect(() => {
+    const product = new ProductService();
+    product
+      .getProduct(productId)
+      .then((data) => setChosenProduct(data))
+      .catch((err) => console.log(err));
     const member = new MemberService();
-  member
-  .getRestaurant()
-  .then((data) => setRestaurant(data))
-  .catch((err) => console.log(err));
-}, []);
-  
-  if(!chosenProduct) return null;
+    member
+      .getRestaurant()
+      .then((data) => setRestaurant(data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  if (!chosenProduct) return null;
   return (
     <div className={"chosen-product"}>
       <Box className={"title"}>Product Detail</Box>
@@ -102,9 +102,9 @@ useEffect(() => {
               </div>
             </Box>
             <p className={"product-desc"}>
-              {chosenProduct?.productDesc 
-              ? chosenProduct?.productDesc 
-              : "No Description"}
+              {chosenProduct?.productDesc
+                ? chosenProduct?.productDesc
+                : "No Description"}
             </p>
             <Divider height="1" width="100%" bg="#000000" />
             <div className={"product-price"}>
@@ -112,7 +112,21 @@ useEffect(() => {
               <span>${chosenProduct?.productPrice}</span>
             </div>
             <div className={"button-box"}>
-              <Button variant="contained">Add To Basket</Button>
+              <Button variant="contained"
+                onClick={(e) => {
+                  // console.log("BUTTON PRESSED");
+                  onAdd({
+                    _id: chosenProduct._id,
+                    quantity: 1,
+                    name: chosenProduct.productName,
+                    price: chosenProduct.productPrice,
+                    image: chosenProduct.productImages[0],
+                  });
+                  e.stopPropagation();
+                }}
+              >
+                Add To Basket
+              </Button>
             </div>
           </Box>
         </Stack>
